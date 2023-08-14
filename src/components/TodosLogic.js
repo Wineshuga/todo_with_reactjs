@@ -1,8 +1,8 @@
-import InputTodo from "./InputTodo";
-import TodosList from "./TodosList"
+import InputTodo from './InputTodo';
+import TodosList from './TodosList';
 
 const TodosLogic = () => {
-    const todos = [
+  const todos = [
     {
       id: 1,
       title: 'Setup development environment',
@@ -19,13 +19,12 @@ const TodosLogic = () => {
       completed: false,
     },
   ];
-    return (
-        <div>
-            <InputTodo />
-            <TodosList todosProps={todos} />
-        </div>
-        
-    )
-  }
-  export default TodosLogic;
-  
+  return (
+    <div>
+      <InputTodo />
+      <TodosList todosProps={todos} />
+    </div>
+
+  );
+};
+export default TodosLogic;
