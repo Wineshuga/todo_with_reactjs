@@ -5,6 +5,12 @@ import styles from '../styles/TodoItem.module.css';
 const TodoItem = ({
   itemProp, handleChange, delTodo, setUpdate,
 }) => {
+  const completedStyle = {
+    fontStyle: 'italic',
+    color: '#595959',
+    opacity: 0.4,
+    textDecoration: 'line-through',
+  };
   const [editing, setEditing] = useState(false);
 
   const handleEditing = () => {
@@ -34,7 +40,9 @@ const TodoItem = ({
         />
         <button type="button" onClick={handleEditing}>Edit</button>
         <button type="button" onClick={() => delTodo(itemProp.id)}>Delete</button>
-        {itemProp.title}
+        <span style={itemProp.completed ? completedStyle : null}>
+          {itemProp.title}
+        </span>
       </div>
       <input
         type="text"
