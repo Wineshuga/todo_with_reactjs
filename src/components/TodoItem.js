@@ -1,19 +1,52 @@
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 import styles from '../styles/TodoItem.module.css';
 
-const TodoItem = ({ itemProp, handleChange, delTodo }) => (
-  <li className={styles.item}>
-    <div className={styles.content}>
+const TodoItem = ({
+  itemProp, handleChange, delTodo, setUpdate,
+}) => {
+  const [editing, setEditing] = useState(false);
+
+  const handleEditing = () => {
+    setEditing(true);
+  };
+
+  const viewMode = {};
+  const editMode = {};
+  if (editing) {
+    viewMode.display = 'none';
+  } else {
+    editMode.display = 'none';
+  }
+
+  const handleUpdatedDone = (event) => {
+    if (event.key === 'Enter') {
+      setEditing(false);
+    }
+  };
+  return (
+    <li className={styles.item}>
+      <div className={styles.content} style={viewMode}>
+        <input
+          type="checkbox"
+          checked={itemProp.completed}
+          onChange={() => handleChange(itemProp.id)}
+        />
+        <button type="button" onClick={handleEditing}>Edit</button>
+        <button type="button" onClick={() => delTodo(itemProp.id)}>Delete</button>
+        {itemProp.title}
+      </div>
       <input
-        type="checkbox"
-        checked={itemProp.completed}
-        onChange={() => handleChange(itemProp.id)}
+        type="text"
+        style={editMode}
+        value={itemProp.title}
+        className={styles.textInput}
+        onChange={(e) => setUpdate(e.target.value, itemProp.id)}
+        onKeyDown={handleUpdatedDone}
       />
-      <button type="button" onClick={() => delTodo(itemProp.id)}>Delete</button>
-      {itemProp.title}
-    </div>
-  </li>
-);
+    </li>
+  );
+};
 
 TodoItem.propTypes = {
   itemProp: PropTypes.shape({
@@ -23,5 +56,6 @@ TodoItem.propTypes = {
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
   delTodo: PropTypes.func.isRequired,
+  setUpdate: PropTypes.func.isRequired,
 };
 export default TodoItem;
